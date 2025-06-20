@@ -1,0 +1,45 @@
+html, body {
+    margin: 0px;
+    padding: 0px;
+    font-family: "Roboto";
+}
+
+header {
+    background-color: #606c38;
+    color: white;
+    font-size: 20px;
+    padding: 30px;
+}
+
+#mainContainer {
+    display: flex;
+    flex-direction: row;
+}
+
+aside {
+    width: 25%;
+    height: 100vh;
+    background-color: #fefae0;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0px;
+}
+
+li {
+    margin: 30px;
+}
+
+#mainContainer > div {
+    padding: 50px;
+}
+
+table {
+    margin-bottom: 50px;
+}
+
+input{
+    margin-top: 20px;
+    margin-right: 20px;
+}

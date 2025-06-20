@@ -1,9 +1,9 @@
 function App() {
-    let active = "edaul"
+    let active = "edasl";
 
-    function setNav(element, x) {
-        document.getElementById(x).hidden = true;
-        document.getElementById(element).hidden = false;
+    function setNav(element) {
+        document.getElementById(active).style.display = 'none';
+        document.getElementById(element).style.display = 'block';
         active = element;
     }
 
@@ -12,15 +12,20 @@ function App() {
             <header>MSIL Accelerator</header>
             <div id = "mainContainer">
                 <aside>
-                    <Navigation navigator = {setNav} active = {active}/>
+                    <ul>
+                        <li onClick={() => setNav('edasl')}>Exploratory Data Analysis Supervised Learning</li>
+                        <li onClick={() => setNav('classification')}>Classification</li>
+                        <li onClick={() => setNav('regression')}>Regression</li>
+                        <li onClick={() => setNav('timeseries')}>Time Series</li>
+                        <li onClick={() => setNav('clustering')}>Clustering</li>
+                    </ul>
                 </aside>
                 <main>
-                    <EDASL id = "edasl" />
-                    <EDAUL id = "edaul"/>
-                    <Regression id = "regression" />
-                    <Classification id = "classification" />
-                    <TimeSeries id = "timeseries" />
-                    <Clustering id = "clustering" />
+                    <div id = "edasl" style = {{display: 'none'}}><EDASL/></div>
+                    <div id = "regression" style = {{display: 'none'}}><Regression/></div>
+                    <div id = "classification" style = {{display: 'none'}}><Classification/></div>
+                    <div id = "timeseries" style = {{display: 'none'}}><TimeSeries/></div>
+                    <div id = "clustering" style = {{display: 'none'}}><Clustering/></div>
                 </main>
             </div>
         </>

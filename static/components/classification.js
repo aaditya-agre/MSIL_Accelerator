@@ -26,6 +26,10 @@ function Classification() {
         }).then(response => response.json()).then(result => setCols(result['cols']));
     }
 
+    function changeSplit() {
+        document.getElementById('classSplitDisplay').innerText = document.getElementById('classSplit').value;
+    }
+
     async function trainModel() {
         let data = {'model' : document.getElementById('classModel').value,
                 'split': document.getElementById('classSplit').value,
@@ -79,7 +83,7 @@ function Classification() {
                 <option>GridSearchCV</option>
                 <option>RandomizedSearchCV</option>
             </select><br /><br />
-            <label>Train - test split (20 - 60): </label><input type = "range" min = "20" max = "60" id = "classSplit"/><br /><br />
+            <label>Train - test split (20 - 60): </label><input type = "range" min = "20" max = "60" id = "classSplit" onChange = {changeSplit}/><span id = "classSplitDisplay"></span><br /><br />
             {cols && <label>Target Variable: </label>}
             {cols && <><select id = "classTargetVar">{colOptions}</select><br /><br /></>}
             <input type = "button" value = "Train" onClick = {trainModel}/><br /><br />

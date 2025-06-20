@@ -6,9 +6,9 @@ def hyperparams(model):
         param_grid = {
     'copy_X': [True, False],
     'fit_intercept': [True, False],
-    'n_jobs': [None, -1, 1],  # -1 means use all processors
+    'n_jobs': [None, -1, 1],  
     'positive': [True, False],
-    'tol': [1e-6, 1e-4, 1e-2, 1e-1, 1.0]
+    'tol': [1e-6, 1e-4, 1e-2, 1e-1, 1.0],
     }
         return param_grid
     
@@ -18,9 +18,9 @@ def hyperparams(model):
     'copy_X': [True, False],                        # Whether to copy input X
     'fit_intercept': [True, False],                 # Whether to fit intercept
     'max_iter': [None, 100, 500, 1000, 5000],        # Max number of iterations for solvers
-    'positive': [True, False],                      # Force coefficients to be positive
+    'positive': [False],                      # Force coefficients to be positive
     'random_state': [None, 42],                     # For reproducibility
-    'solver': ['auto', 'svd', 'cholesky', 'lsqr', 'sparse_cg', 'sag', 'saga', 'lbfgs'],  # Optimization algorithms
+    'solver': ['auto', 'svd', 'cholesky', 'lsqr', 'sparse_cg'],  # Optimization algorithms
     'tol': [1e-6, 1e-4, 1e-2, 1e-1]                 # Convergence tolerance
     }
 

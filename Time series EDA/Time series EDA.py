@@ -8,13 +8,12 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 import warnings
 
 warnings.filterwarnings("ignore")
-sns.set(style="whitegrid")
+sns.set_theme(style="whitegrid")
 
 df = pd.read_excel("/content/sample_timeseries.xlsx")  # Replace with your file
 datetime_col = 'date'  # Replace with your actual datetime column
 target_col = 'sales'   # Replace with your actual target column
 
-df = perform_time_series_eda(df, datetime_col, target_col, freq='D')  # Daily frequency
 
 
 def perform_time_series_eda(df, datetime_col, target_col, freq='D'):
@@ -80,3 +79,5 @@ def perform_time_series_eda(df, datetime_col, target_col, freq='D'):
         print("❌ Likely non-stationary (p ≥ 0.05)")
     
     return df
+
+df = perform_time_series_eda(df, datetime_col, target_col, freq='D')  # Daily frequency

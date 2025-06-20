@@ -16,7 +16,7 @@ from requests_toolbelt import MultipartEncoder
 import json
 from Clustering.clustering.models.trainer import get_model as get_cluster_model
 from Clustering.clustering.utils.metrics import clustering_metrics
-from Clustering.clustering.tuning.hyperparam import hyperparams
+import Clustering.clustering.tuning.hyperparam as ClusteringHyperparameters
 
 
 df = {'edasl': None, 'edaul': None, 'classification': None, 'regression': None, 'timeseries': None, 'clustering': None}
@@ -166,21 +166,22 @@ def trainModel(model):
         return Response(m.to_string(), mimetype = m.content_type)
     
     elif model == 'clustering':
+        
         data = request.get_json(force = True)
         X_cluster = df['clustering']
 
         model_name = data['model']
         model = get_cluster_model(model_name)
+        params = ClusteringHyperparameters.hyperparams(model_name)
 
-        params = hyperparams(model_name)
-        model.set_params(**params)
+        tuned_model, best_params, tuned_obj, metric_logs = ClusteringHyperparameters.tune_model(model, params, X_cluster, operation = data['tuning'])
 
-        # buffer = io.BytesIO()
-        # visualize_elbow_method(X_scaled, k_range=(2, 11), buffer)
-        # buffer.seek(0)
+        buffer = io.BytesIO()
+        ClusteringHyperparameters.visualize_cluster_evaluation(model_name, X_cluster, buffer, k_range=(2, 11))
+        buffer.seek(0)
 
-        model.fit(X_cluster)
-        cluster_labels = model.labels_
+        tuned_model.fit(X_cluster)
+        cluster_labels = tuned_model.labels_
 
         metrics = clustering_metrics(X_cluster, cluster_labels)
 
@@ -189,10 +190,11 @@ def trainModel(model):
         X_cluster.to_csv(csv_buffer, index = False)
         csv_buffer.seek(0)
 
-        # cluster_logger(model_name=str(model.__class__.__name__), best_params=params, best_score=score)
+        count['clustering'] += 1
+        metrics['num'] = count['clustering']
 
-        # 'graph': ('classGraph.png', buffer, 'image/png')
-        m = MultipartEncoder(fields = {'metrics': json.dumps(metrics), 'output': ('clusters.csv', csv_buffer, 'text/csv')})
+        # cluster_logger(model_name=str(model.__class__.__name__), best_params=params, best_score=score)
+        m = MultipartEncoder(fields = {'metrics': json.dumps(metrics), 'output': ('clusters.csv', csv_buffer, 'text/csv'), 'graph': ('clusterGraph.png', buffer, 'image/png')})
 
         return Response(m.to_string(), mimetype = m.content_type)
 

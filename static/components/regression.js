@@ -26,6 +26,10 @@ function Regression() {
         }).then(response => response.json()).then(result => setCols(result['cols']));
     }
 
+    function changeSplit() {
+        document.getElementById('regSplitDisplay').innerText = document.getElementById('regSplit').value;
+    }
+
     async function trainModel() {
         let data = {'model' : document.getElementById('regModel').value,
                 'split': document.getElementById('regSplit').value,
@@ -72,7 +76,7 @@ function Regression() {
                 <option>GridSearchCV</option>
                 <option>RandomizedSearchCV</option>
             </select><br /><br />
-            <label>Train - test split (20 - 60): </label><input type = "range" min = "20" max = "60" id = "regSplit"/><br /><br />
+            <label>Train - test split (20 - 60): </label><input type = "range" min = "20" max = "60" id = "regSplit" onChange = {changeSplit}/><span id="regSplitDisplay"></span><br /><br />
             {cols && <label>Target Variable: </label>}
             {cols && <><select id = "regTargetVar">{colOptions}</select><br /><br /></>}
             <input type = "button" value = "Train" onClick = {trainModel}/><br /><br />
